@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_estate_1" model="estate.property">
+        <field name="name">Demo Estate Property</field>
+        <field name="expected_price">Demo Estate Property</field>
+    </record>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="estate_property_form_search_view" model="ir.ui.view">
+        <field name="name">estate.property.type.search.view</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="name" string="Title"/>
+            </form>
+        </field>
+    </record>
+    <record id="estate_property_form_type_view" model="ir.ui.view">
+        <field name="name">estate.property.type.form.view</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="name" string="Title"/>
+            </form>
+        </field>
+    </record>
+    <record id="estate_property_tree_type_view" model="ir.ui.view">
+        <field name="name">estate.property.type.tree.view</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Title"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_setting_type" model="ir.actions.act_window">
+        <field name="name">Property Type</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+</odoo>
