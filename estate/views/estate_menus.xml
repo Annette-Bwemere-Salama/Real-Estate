@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="estate_menu_root" name="Real Estate" >
         <menuitem id="advertisement_first_level" name="Advertisement" >
@@ -6,6 +5,8 @@
         </menuitem>
         <menuitem id="settings_first_level" name="Settings">
             <menuitem id="estate_property_type_menu_action" name="Properties Type" action="action_setting_type"/>
+            <menuitem id="estate_property_tag_manu" name="Properties Tags" action="estate_property_tag_action" />
+
         </menuitem>
     </menuitem>
 </odoo>

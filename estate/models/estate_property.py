@@ -1,4 +1,6 @@
-from odoo import models, fields
+from odoo import api
+
+from odoo import models, fields, _
 
 
 class EstateProperty(models.Model):
@@ -9,7 +11,9 @@ class EstateProperty(models.Model):
     description = fields.Text()
     postcode = fields.Char()
 
-    date_availability = fields.Date.today()
+    date_availability = fields.Date(string="Date Availability"
+                                    # , default=lambda self: fields.date.today() + timedelta(month=3)
+                                    )
     expected_price = fields.Float(required=True)
     selling_price = fields.Float(readonly=True, copy=False)
     bedrooms = fields.Integer(default="2")
@@ -35,5 +39,18 @@ class EstateProperty(models.Model):
 
     ], required=True, default="New", copy=False)
     buyer_id = fields.Many2one("res.partner", string="Bayer", copy=False)
-    salesperson_id = fields.Many2one("res.users", string="Salesperson", index=True, tracking=True, default=lambda self: self.env.user)
+    salesperson_id = fields.Many2one("res.users", string="Salesperson", index=True)
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
+    offers_ids = fields.One2many("estate.property.offer", "property_id", string="offers id")
+    tag_ids = fields.Many2many("estate.property.tag", string="Tags")
+
+    @api.model
+    def tags_view_mapping(self):
+        if self.tag_ids:
+            tags_names = ", ".join(tag.name for tag in self.tag_ids)
+            return _("Tags exists: %s") % tags_names
+        else:
+            return _("No tags are defined")
+
+
+
