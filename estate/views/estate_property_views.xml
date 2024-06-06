@@ -37,6 +37,9 @@
                             <field name="selling_price"/>
                         </group>
                         <group>
+                            <field name="best_price"/>
+                        </group>
+                        <group>
                             <field name="expected_price"/>
                         </group>
                         <group>
@@ -86,6 +89,8 @@
                                         <field name="price"/>
                                         <field name="partner_id"/>
                                         <field name="status"/>
+                                        <field name="validity"/>
+                                        <field name="date_deadline"/>
                                     </tree>
                                 </field>
                             </page>
