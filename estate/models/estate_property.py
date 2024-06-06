@@ -64,3 +64,13 @@ class EstateProperty(models.Model):
             self.garden_area = 0
             self.garden_orientation = ""
 
+    def action_cancelled(self):
+        for record in self:
+            record.name = "Cancel"
+        return True
+
+    def action_sold(self):
+        for record in self:
+            record.name = "Sold"
+        return True
+
