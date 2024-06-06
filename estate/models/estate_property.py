@@ -1,6 +1,5 @@
-from odoo import api
 
-from odoo import models, fields, _
+from odoo import api, models, fields, _
 
 
 class EstateProperty(models.Model):
@@ -38,20 +37,19 @@ class EstateProperty(models.Model):
         ("sold", "Sold"),
         ("canceled", "Canceled"),
 
-    ], required=True, default="New", copy=False)
+    ], required=True, default="new", copy=False)
     buyer_id = fields.Many2one("res.partner", string="Bayer", copy=False)
     salesperson_id = fields.Many2one("res.users", string="Salesperson", index=True)
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
     offers_ids = fields.One2many("estate.property.offer", "property_id", string="offers id")
     tag_ids = fields.Many2many("estate.property.tag", string="Tags")
+    total_area = fields.Float(compute="_compute_total_area")
 
-    @api.model
-    def tags_view_mapping(self):
-        if self.tag_ids:
-            tags_names = ", ".join(tag.name for tag in self.tag_ids)
-            return _("Tags exists: %s") % tags_names
-        else:
-            return _("No tags are defined")
+    @api.depends("living_area", "garden_area")
+    def _compute_total_area(self):
+        for record in self:
+            record.total_area = record.living_area + record.garden_area
+
 
 
 

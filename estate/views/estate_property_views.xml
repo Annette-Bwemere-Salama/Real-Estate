@@ -73,6 +73,9 @@
                                 <group id="garden_area">
                                     <field name="garden_area"/>
                                 </group>
+                                <group>
+                                    <field name="total_area"/>
+                                </group>
                                 <group id="garden_orientation">
                                     <field name="garden_orientation"/>
                                 </group>
@@ -113,7 +116,15 @@
                 <field name="selling_price" string="Selling Price"/>
                 <field name="date_availability" string="Available From"/>
                 <field name="tag_ids" widget="many2many_tags"/>
-
+                <!--                 <page string="Offers"> -->
+                <!--                     <field name="offers_ids"> -->
+                <!--                         <form> -->
+                <!--                             <field name="price"/> -->
+                <!--                             <field name="partner_id"/> -->
+                <!--                             <field name="status"/> -->
+                <!--                         </form> -->
+                <!--                     </field> -->
+                <!--                 </page> -->
             </tree>
         </field>
     </record>
