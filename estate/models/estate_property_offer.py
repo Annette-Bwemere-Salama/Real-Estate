@@ -1,18 +1,18 @@
 import datetime
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 
 class EstatePropertyOffer(models.Model):
     _name = "estate.property.offer"
     _description = "Estate property offers"
 
-    price = fields.Float()
+    price = fields.Float(string="Price")
     status = fields.Selection(selection=[
         ("accepted", "Accepted"),
         ("Refused", "refused"),
     ], copy=False)
-    partner_id = fields.Many2one("res.partner", string="partner", required=True)
+    partner_id = fields.Many2one("res.partner", string="Partner", required=True)
     property_id = fields.Many2one("estate.property", required=True, string="Property Id")
     create_date = fields.Datetime(string="Create Date", readonly=True)
     validity = fields.Integer(default="7", string="Validity Day()")
@@ -32,3 +32,9 @@ class EstatePropertyOffer(models.Model):
         for r in self:
             if r.create_date and r.date_deadline:
                 r.validity = r.create_date - r.create_date
+
+    @api.onchange("price")
+    def onchange_price_greater_than_zero(self):
+        if self.price < 0:
+            return {"warning": {"title": _("Warning"), "message": _("Le montant du prix de doit pas être négative")}}
+

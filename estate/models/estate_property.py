@@ -1,4 +1,4 @@
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 
 class EstateProperty(models.Model):
@@ -27,7 +27,7 @@ class EstateProperty(models.Model):
         ("east", "East"),
         ("west", "West"),
     ])
-    price = fields.Float()
+    # price = fields.Float()
     active = fields.Boolean(default=True)
     state = fields.Selection(selection=[
         ("new", "New"),
@@ -63,3 +63,4 @@ class EstateProperty(models.Model):
         else:
             self.garden_area = 0
             self.garden_orientation = ""
+
