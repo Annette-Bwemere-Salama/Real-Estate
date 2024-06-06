@@ -1,4 +1,20 @@
 from odoo import api, models, fields, _
+from odoo.exceptions import ValidationError
+
+GARDEN_ORIENTATION_SELECTION = [
+    ("north", "North"),
+    ("south", "South"),
+    ("east", "East"),
+    ("west", "West"),
+]
+
+STATE_ESTATE_PROPERTY = [
+    ("new", "New"),
+    ("offer received", "Offer Received"),
+    ("offer accepted", "Offer Accepted"),
+    ("sold", "Sold"),
+    ("canceled", "Canceled"),
+]
 
 
 class EstateProperty(models.Model):
@@ -21,22 +37,10 @@ class EstateProperty(models.Model):
     garage = fields.Boolean()
     garden = fields.Boolean()
     garden_area = fields.Integer()
-    garden_orientation = fields.Selection(selection=[
-        ("north", "North"),
-        ("south", "South"),
-        ("east", "East"),
-        ("west", "West"),
-    ])
+    garden_orientation = fields.Selection(selection=GARDEN_ORIENTATION_SELECTION)
     # price = fields.Float()
     active = fields.Boolean(default=True)
-    state = fields.Selection(selection=[
-        ("new", "New"),
-        ("offer received", "Offer Received"),
-        ("offer accepted", "Offer Accepted"),
-        ("sold", "Sold"),
-        ("canceled", "Canceled"),
-
-    ], required=True, default="new", copy=False)
+    state = fields.Selection(selection=STATE_ESTATE_PROPERTY, required=True, default="new", copy=False)
     buyer_id = fields.Many2one("res.partner", string="Bayer", copy=False)
     salesperson_id = fields.Many2one("res.users", string="Salesperson", index=True)
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
@@ -64,13 +68,28 @@ class EstateProperty(models.Model):
             self.garden_area = 0
             self.garden_orientation = ""
 
-    def action_cancelled(self):
-        for record in self:
-            record.name = "Cancel"
-        return True
-
-    def action_sold(self):
-        for record in self:
-            record.name = "Sold"
-        return True
+    # def action_cancelled(self):
+    #     for record in self:
+    #         if record in self:
+    #             if record.state == "sold":
+    #                 raise ValidationError(_("Can't Change states for cancel..........."))
+    #             record.state = ["cancel"]
+    #             record.offers_ids.status = "cancel"
+    #
+    # def action_sold(self):
+    #     for record in self:
+    #         if record.state == "cancel":
+    #             raise ValidationError(_("Can't change States for Sold....."))
+    #         record.state = "sold"
+    #         record.offers_ids.states = "accepted"
+    #
+    # @api.onchange("state")
+    # def onchange_state_cancel_sold(self):
+    #     for record in "state":
+    #         if self.state == "sold":
+    #             raise ValidationError(
+    #                 _("Can't change States for Sold.....")
+    #             )
+    #         record.state = "cancel"
+    #         record.offers_ids.status = "cancelled"
 
