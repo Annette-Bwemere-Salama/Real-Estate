@@ -4,6 +4,7 @@ from odoo import models, fields, _
 
 
 class EstateProperty(models.Model):
+    # _inherit = 'estate.property'
     _name = "estate.property"
     _description = "estate Modul For Annette"
 
