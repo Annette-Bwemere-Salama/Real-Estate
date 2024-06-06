@@ -1,4 +1,4 @@
-from odoo import api, models, fields, _
+from odoo import api, models, fields
 
 
 class EstateProperty(models.Model):
@@ -54,3 +54,12 @@ class EstateProperty(models.Model):
     def _compute_best_price(self):
         for record in self:
             record.best_price = max(record.offers_ids.mapped("price") or [0.0])
+
+    @api.onchange("garden")
+    def onchange_garden_area_garden_orientation(self):
+        if self.garden:
+            self.garden_area = 10
+            self.garden_orientation = "north"
+        else:
+            self.garden_area = 0
+            self.garden_orientation = ""
