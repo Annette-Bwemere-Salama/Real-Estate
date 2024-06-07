@@ -8,6 +8,7 @@ class PropertyType(models.Model):
 
     name = fields.Char(string="Name", required=True)
     property_ids = fields.Many2one("estate.property", string="Property Id")
+    Sequence = fields.Integer(string="Sequence", default=1, help="Use Sequence")
     _sql_constraints = [
         ("name_uniq", "unique(name)", "Name must be unique"),
     ]

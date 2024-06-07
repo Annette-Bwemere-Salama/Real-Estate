@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="estate_property_form_search_view" model="ir.ui.view">
+    <record id="estate_property_type_search_view" model="ir.ui.view">
         <field name="name">estate.property.type.search.view</field>
         <field name="model">estate.property.type</field>
         <field name="arch" type="xml">
-            <form>
+            <search __validate__="1">
                 <field name="name" string="Title"/>
+            </search>
+        </field>
+    </record>
+    <record id="estate_property_type_form_view" model="ir.ui.view">
+        <field name="name">estate.property.type.form.view</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <form>
+<!--                 <group> -->
+<!--                     <field name="sequence"/> -->
+<!--                 </group> -->
+                <group>
+
+                    <field name="name" string="Title"/>
+                </group>
+                <group>
+
+                    <field name="property_ids">
+
+                    </field>
+                </group>
             </form>
         </field>
     </record>
-<!--     <record id="estate_property_form_type_view" model="ir.ui.view"> -->
-<!--         <field name="name">estate.property.type.form.view</field> -->
-<!--         <field name="model">estate.property.type</field> -->
-<!--         <field name="arch" type="xml"> -->
-<!--             <form> -->
-<!--                 <field name="name" string="Title"/> -->
-<!--                 <field name="property_ids"> -->
-<!--                     <tree> -->
-<!--                         <field name="estate.property.type"/> -->
-<!--                     </tree> -->
-<!--                 </field> -->
-<!--             </form> -->
-<!--         </field> -->
-<!--     </record> -->
-    <record id="estate_property_tree_type_view" model="ir.ui.view">
+    <record id="estate_property_type_tree_view" model="ir.ui.view">
         <field name="name">estate.property.type.tree.view</field>
         <field name="model">estate.property.type</field>
         <field name="arch" type="xml">
