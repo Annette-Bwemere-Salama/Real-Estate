@@ -1,5 +1,5 @@
 from odoo import models, fields
-from odoo import api
+from odoo import api, _
 
 
 class EstatePropertyTag(models.Model):
@@ -12,6 +12,11 @@ class EstatePropertyTag(models.Model):
     color = fields.Char(string="Color")
 
     _sql_constraints = [
-        ("check_unique_tag_name", "unique(tag_name)", "Property Tag must be unique")
+        ("check_unique_name", "unique(name)", "Property Tag must be unique")
     ]
 
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('name', _('New')) == _('New'):
+    #         vals['name'] = self.env['ir.sequence'].next_by_code('estate.property.tag.sequence') or _('New')
+    #     return super(EstatePropertyTag, self).create(vals)
