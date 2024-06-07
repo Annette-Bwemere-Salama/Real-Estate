@@ -98,5 +98,13 @@ class EstateProperty(models.Model):
         ("positive_selling_price", "CHECK(selling_price >= 0)", "The selling price must be  positive"),
         ("positives_offer_price", "CHECK(price > 0)", "The offer price must be strictly positive"),
         ("positive_bedrooms", "CHECK(bedrooms > 0)", "The number of bedrooms must be strictly positive"),
+        ("selling_price_constraint_less_than_nine_percent", "CHECK(selling_price < expected_price * 0.9)",)
     ]
 
+    # @api.constrains("selling_price", "expected_price")
+    # def _check_selling_price(self):
+    #     for record in self:
+    #         if record.selling_price < record.expected_price * 0.9:
+    #             raise ValidationError(
+    #                 _("The selling price cannot be lower than the expected price")
+    #             )
