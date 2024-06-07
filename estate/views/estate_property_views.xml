@@ -95,6 +95,7 @@
                                         <field name="status"/>
                                         <field name="validity"/>
                                         <field name="date_deadline"/>
+                                        <button icon="fa-check" type="object" name="action_accept"/>
                                     </tree>
                                 </field>
                             </page>

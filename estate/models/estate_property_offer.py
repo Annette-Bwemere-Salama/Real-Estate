@@ -40,8 +40,15 @@ class EstatePropertyOffer(models.Model):
             return {"warning": {"title": _("Warning"), "message": _("Le montant du prix de doit pas être négative")}}
 
     def action_accept(self):
-        self.ensure_one()
-        if "accepted" in self.property_id.offer_ids.mapped("status"):
-            raise UserError(_("Test Error"))
+        # self.ensure_one()
+        if "accepted" in self.property_id.offers_ids.mapped("status"):
+            raise UserError(_("Is Accepted"))
         self.status = "accepted"
+        self.property_id.selling_price = self.price
+
+    def action_refused(self):
+        # self.ensure_one()
+        if "refused" in self.property_id.offers_ids.mapped("status"):
+            raise UserError(_("We cannot refuse is status is save and accepted"))
+        self.status = "refused"
         self.property_id.selling_price = self.price
