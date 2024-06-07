@@ -11,6 +11,7 @@
                     <field name="property_id"/>
                     <field name="property_type_id"/>
                     <field name="price"/>
+                    <button icon="fa-check" type="object" name="action_accept"/>
                     <field name="status"/>
                 </tree>
             </field>

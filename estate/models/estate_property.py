@@ -1,4 +1,4 @@
-from odoo import api, models, fields, _
+from odoo import api, models, fields, _, exceptions
 from odoo.exceptions import ValidationError
 
 GARDEN_ORIENTATION_SELECTION = [
@@ -15,6 +15,12 @@ STATE_ESTATE_PROPERTY = [
     ("sold", "Sold"),
     ("canceled", "Canceled"),
 ]
+
+# STATUS_ESTATE_PROPERTY = [
+#     ('available', 'Available'),
+#     ('sold', 'Sold'),
+#     ('canceled', 'Canceled')
+# ]
 
 
 class EstateProperty(models.Model):
@@ -40,7 +46,7 @@ class EstateProperty(models.Model):
     garden_orientation = fields.Selection(selection=GARDEN_ORIENTATION_SELECTION)
     # price = fields.Float()
     active = fields.Boolean(default=True)
-    state = fields.Selection(selection=STATE_ESTATE_PROPERTY, required=True, default="new", copy=False, string="Status")
+    state = fields.Selection(selection=STATE_ESTATE_PROPERTY, required=True, default="new", copy=False)
     buyer_id = fields.Many2one("res.partner", string="Bayer", copy=False)
     salesperson_id = fields.Many2one("res.users", string="Salesperson", index=True)
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
@@ -48,6 +54,7 @@ class EstateProperty(models.Model):
     tag_ids = fields.Many2many("estate.property.tag", string="Tags")
     total_area = fields.Float(compute="_compute_total_area")
     best_price = fields.Float(compute="_compute_best_price", string="Best Offer")
+    # status = fields.Selection(selection=STATUS_ESTATE_PROPERTY, default="available")
 
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
@@ -70,22 +77,18 @@ class EstateProperty(models.Model):
 
     def action_cancelled(self):
         for record in self:
-            if record in self:
-                record.name = "Cancel"
-        return True
+            if record.state == "sold":
+                raise exceptions.UserError(
+                    _("Can't change States for Sold.....")
+                )
+            record.state = "canceled"
 
     def action_sold(self):
         for record in self:
-            if record in self:
-                record.name = "Sold"
-            return True
+            if record.state == "canceled":
+                raise exceptions.UserError(
+                    "A canceled property cannot be sold."
+                )
+            record.state = "sold"
 
-    # @api.onchange("state")
-    # def onchange_state_cancel_sold(self):
-    #     for record in "state":
-    #         if self.state == "sold":
-    #             raise ValidationError(
-    #                 _("Can't change States for Sold.....")
-    #             )
-    #         record.state = "cancel"
-    #         record.offers_ids.status = "cancelled"
+

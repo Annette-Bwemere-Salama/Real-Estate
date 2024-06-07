@@ -1,6 +1,7 @@
 import datetime
 
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 
 
 class EstatePropertyOffer(models.Model):
@@ -38,3 +39,9 @@ class EstatePropertyOffer(models.Model):
         if self.price < 0:
             return {"warning": {"title": _("Warning"), "message": _("Le montant du prix de doit pas être négative")}}
 
+    def action_accept(self):
+        self.ensure_one()
+        if "accepted" in self.property_id.offer_ids.mapped("status"):
+            raise UserError(_("Test Error"))
+        self.status = "accepted"
+        self.property_id.selling_price = self.price
