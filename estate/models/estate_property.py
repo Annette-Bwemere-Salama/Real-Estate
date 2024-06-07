@@ -1,5 +1,6 @@
 from odoo import api, models, fields, _, exceptions
 from odoo.exceptions import ValidationError
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 GARDEN_ORIENTATION_SELECTION = [
     ("north", "North"),
@@ -10,8 +11,8 @@ GARDEN_ORIENTATION_SELECTION = [
 
 STATE_ESTATE_PROPERTY = [
     ("new", "New"),
-    ("offer received", "Offer Received"),
-    ("offer accepted", "Offer Accepted"),
+    ("received", "Received"),
+    ("accepted", "Accepted"),
     ("sold", "Sold"),
     ("canceled", "Canceled"),
 ]
@@ -98,7 +99,10 @@ class EstateProperty(models.Model):
         ("positive_selling_price", "CHECK(selling_price >= 0)", "The selling price must be  positive"),
         ("positives_offer_price", "CHECK(price > 0)", "The offer price must be strictly positive"),
         ("positive_bedrooms", "CHECK(bedrooms > 0)", "The number of bedrooms must be strictly positive"),
-        ("selling_price_constraint_less_than_nine_percent", "CHECK(selling_price < expected_price * 0.9)",)
+        ('new_selling_price_constraint', 'CHECK(selling_price < expected_price * 0.9)',
+         'The selling price cannot be lower than 90% of the expected price')
+
+
     ]
 
     # @api.constrains("selling_price", "expected_price")
@@ -108,3 +112,13 @@ class EstateProperty(models.Model):
     #             raise ValidationError(
     #                 _("The selling price cannot be lower than the expected price")
     #             )
+
+    @api.constrains("selling_price", "expected_price")
+    def _check_selling_price(self):
+        for record in self:
+            if not float_is_zero(record.selling_price, precision_digits=2) and not float_is_zero(record.expected_price,
+                                                                                                 precision_digits=2):
+                if float_compare(record.selling_price, record.expected_price * 0.9, precision_digits=2) == -1:
+                    raise ValidationError(
+                        _("The selling price cannot be lower than the expected price")
+                    )

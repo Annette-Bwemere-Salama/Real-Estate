@@ -6,8 +6,7 @@ class PropertyType(models.Model):
     _description = "estate property type description"
 
     name = fields.Char(string="Name", required=True)
-    # property_ids = fields.One2many("estate.property", "property_type_id", string="Property Id")
-
+    property_ids = fields.Many2one("estate.property", string="Property Id")
     _sql_constraints = [
         ("name_uniq", "unique(name)", "Name must be unique"),
     ]
