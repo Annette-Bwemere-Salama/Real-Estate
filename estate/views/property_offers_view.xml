@@ -15,12 +15,14 @@
                                 name="action_accept"
                                 icon="fa-check"
                                 cursor="pointer"
+                                string="Accept Offer"
                         />
                         <button
                                 type="object"
                                 name="action_refused"
                                 icon="fa-times"
                                 cursor="pointer"
+                                string="Refuse Offer"
                         />
                     </group>
                 </group>
@@ -42,8 +44,8 @@
                 <field name="property_id"/>
                 <field name="price"/>
                 <field name="status"/>
-<!--                 <button string="Accepted" type="object" name="action_accept" icon="fa-check" cursor="pointer"/> -->
 <!--                 <button string="Refused" type="object" name="action_refused" icon="fa-times" cursor="pointer"/> -->
+<!--                 <button string="Accepted" type="object" name="action_accept" icon="fa-check" cursor="pointer"/> -->
             </tree>
         </field>
     </record>

@@ -16,6 +16,7 @@ STATE_ESTATE_PROPERTY = [
     ("canceled", "Canceled"),
 ]
 
+
 # STATUS_ESTATE_PROPERTY = [
 #     ('available', 'Available'),
 #     ('sold', 'Sold'),
@@ -54,6 +55,7 @@ class EstateProperty(models.Model):
     tag_ids = fields.Many2many("estate.property.tag", string="Tags")
     total_area = fields.Float(compute="_compute_total_area")
     best_price = fields.Float(compute="_compute_best_price", string="Best Offer")
+
     # status = fields.Selection(selection=STATUS_ESTATE_PROPERTY, default="available")
 
     @api.depends("living_area", "garden_area")
@@ -91,4 +93,10 @@ class EstateProperty(models.Model):
                 )
             record.state = "sold"
 
+    _sql_constraints = [
+        ("positive_expected_price", "CHECK(expected_price > 0)", "The expected price must be strictly positive"),
+        ("positive_selling_price", "CHECK(selling_price >= 0)", "The selling price must be  positive"),
+        ("positives_offer_price", "CHECK(price > 0)", "The offer price must be strictly positive"),
+        ("positive_bedrooms", "CHECK(bedrooms > 0)", "The number of bedrooms must be strictly positive"),
+    ]
 
