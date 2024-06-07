@@ -40,7 +40,7 @@ class EstateProperty(models.Model):
     garden_orientation = fields.Selection(selection=GARDEN_ORIENTATION_SELECTION)
     # price = fields.Float()
     active = fields.Boolean(default=True)
-    state = fields.Selection(selection=STATE_ESTATE_PROPERTY, required=True, default="new", copy=False)
+    state = fields.Selection(selection=STATE_ESTATE_PROPERTY, required=True, default="new", copy=False, string="Status")
     buyer_id = fields.Many2one("res.partner", string="Bayer", copy=False)
     salesperson_id = fields.Many2one("res.users", string="Salesperson", index=True)
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
@@ -68,21 +68,18 @@ class EstateProperty(models.Model):
             self.garden_area = 0
             self.garden_orientation = ""
 
-    # def action_cancelled(self):
-    #     for record in self:
-    #         if record in self:
-    #             if record.state == "sold":
-    #                 raise ValidationError(_("Can't Change states for cancel..........."))
-    #             record.state = ["cancel"]
-    #             record.offers_ids.status = "cancel"
-    #
-    # def action_sold(self):
-    #     for record in self:
-    #         if record.state == "cancel":
-    #             raise ValidationError(_("Can't change States for Sold....."))
-    #         record.state = "sold"
-    #         record.offers_ids.states = "accepted"
-    #
+    def action_cancelled(self):
+        for record in self:
+            if record in self:
+                record.name = "Cancel"
+        return True
+
+    def action_sold(self):
+        for record in self:
+            if record in self:
+                record.name = "Sold"
+            return True
+
     # @api.onchange("state")
     # def onchange_state_cancel_sold(self):
     #     for record in "state":
@@ -92,4 +89,3 @@ class EstateProperty(models.Model):
     #             )
     #         record.state = "cancel"
     #         record.offers_ids.status = "cancelled"
-
