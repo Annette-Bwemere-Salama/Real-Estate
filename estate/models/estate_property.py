@@ -29,7 +29,7 @@ class EstateProperty(models.Model):
     # _inherit = 'estate.property'
     _name = "estate.property"
     _description = "estate Modul For Annette"
-
+    _order = "id DESC"
     name = fields.Char(required=True)
     description = fields.Text()
     postcode = fields.Char()
