@@ -25,7 +25,7 @@
                 <header>
                     <button name="action_sold" type="object" string="Sold"/>
                     <button name="action_cancelled" type="object" string="Cancel"/>
-                    <field name="state" widget="statusbar" statusbar_visible="new,received,accepted,sold,canceled"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,received,accepted,sold,canceled" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
                     <group>
